@@ -29,7 +29,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
+.angular/
 .sass-cache/
 /connect.lock
 /coverage
@@ -44,3 +44,6 @@ Thumbs.db
 # Python caching
 __pycache__/
 *.pyc
+
+# Environment
+.env
