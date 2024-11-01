@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "user-stash"
+version = "0.0.1"
+authors = [
+  { name="Andre", email="xavier.andre256@gmail.com" },
+]
+maintainers = [
+  { name="Andre", email="xavier.andre256@gmail.com" },
+]
+description = "User Stash Server"
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["flask"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+"flask"
+]
+
+[project.urls]
+Repository = "https://github.com/AndreXVR/user-stash"
+Issues = "https://github.com/AndreXVR/user-stash/issues"
