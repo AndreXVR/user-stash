@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { RouterOutlet, RouterLink } from "@angular/router";
-import { AuthService } from "./auth.service";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "./environment";
 import { UserInterface } from "./user.interface";
+import { AuthService } from "./auth.service";
+import { environment } from "./environment";
 
 @Component({
   selector: "app-root",
@@ -17,14 +17,20 @@ export class AppComponent implements OnInit {
   http = inject(HttpClient);
 
   ngOnInit(): void {
-    this.http.get<{user: string}>(environment.apiUrl + "/user").subscribe({
+    this.http.get<{user: UserInterface}>(environment.apiUrl + "/api/user").subscribe({
       next: (response) => {
         console.log("response", response);
+        this.authService.currentUserSig.set(response.user);
+      },
+      error: () => {
+        this.authService.currentUserSig.set(null);
       }
     })
   }
 
   logout(): void {
     console.log("logout")
+    localStorage.setItem("token", "")
+    this.authService.currentUserSig.set(null);
   }
 }

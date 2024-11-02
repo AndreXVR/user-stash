@@ -15,7 +15,17 @@ def hello_world():
 @app.route("/api/user", methods=["GET"])
 def user():
     if request.method == "GET":
-        return request.headers.get('Authorization'), 200
+        auth = request.headers.get("Authorization")
+        token = auth[6:] if auth else ""
+        if token:
+            for user in users_list:
+                if token == user.get("token"):
+                    return {"user": {
+                        "username": user.get("username"),
+                        "email": user.get("email"),
+                        "token": user.get("token")
+                    }}
+        return "Unauthorized, please log in", 401
 
 
 @app.route("/api/users", methods=["GET", "POST"])
@@ -24,12 +34,13 @@ def users():
         return users_list
     if request.method == "POST":
         response = {}
-        user = request.json["user"]
-        if user["email"] not in [u["email"] for u in users_list]:
+        user = request.json.get("user")
+        if user.get("email") not in [u.get("email") for u in users_list]:
+            user.update({"token": "t"+user.get("email")})
             response = {"user": {
-                "username": request.json["user"]["username"],
-                "email": request.json["user"]["email"],
-                "token": request.json["user"]["email"]
+                "username": user.get("username"),
+                "email": user.get("email"),
+                "token": user.get("token")
             }}
             users_list.append(user)  # Saving users on memory
             return response
@@ -40,14 +51,16 @@ def users():
 def login():
     if request.method == "POST":
         response = {}
-        user = request.json["user"]
+        user = request.json.get("user")
         for u in users_list:
             if user["email"] == u["email"] and user["password"] == u["password"]:
+                user.update({"token": "t"+user.get("email")})
                 response = {"user": {
-                    "username": u["username"],
-                    "email": u["email"],
-                    "token": "abuble"
+                    "username": user.get("username"),
+                    "email": user.get("email"),
+                    "token": user.get("token")
                 }}
+                break
         if response:
             return response
         return "Invalid email or password.", 401

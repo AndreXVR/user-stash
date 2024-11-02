@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, inject } from "@angular/core";
 import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
-import { environment } from "../environment";
 import { UserInterface } from "../user.interface";
-import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
+import { environment } from "../environment";
+import { AuthService } from "../auth.service";
 
 @Component({
     selector: "app-register",
@@ -26,7 +26,7 @@ export class RegisterComponent {
 
     onSubmit(): void {
         this.http.post<{user: UserInterface}>(
-            environment.apiUrl + "/users", {
+            environment.apiUrl + "/api/users", {
                 user: this.form.getRawValue()
             }
         ).subscribe({
