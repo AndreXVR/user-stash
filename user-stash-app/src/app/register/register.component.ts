@@ -29,11 +29,16 @@ export class RegisterComponent {
             environment.apiUrl + "/users", {
                 user: this.form.getRawValue()
             }
-        ).subscribe(response => {
-            console.log("response", response);
-            localStorage.setItem("token", response.user.token);
-            this.authService.currentUserSig.set(response.user);
-            this.router.navigateByUrl("/");
+        ).subscribe({
+            next: (response) => {
+                console.log("response", response);
+                localStorage.setItem("token", response.user.token);
+                this.authService.currentUserSig.set(response.user);
+                this.router.navigateByUrl("/");
+            },
+            error: (response) =>{
+            alert(response.error);
+            }
         });
     }
 }

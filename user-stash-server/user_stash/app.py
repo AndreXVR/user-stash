@@ -12,29 +12,39 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/users", methods=["POST"])
+@app.route("/users", methods=["GET", "POST"])
 def users():
+    if request.method == "GET":
+        return users_list
     if request.method == "POST":
+        response = {}
         user = request.json["user"]
-        response = {"user": {
-            "username": request.json["user"]["username"],
-            "email": request.json["user"]["email"],
-            "token": "abuble"
-        }}
-        users_list.append(user)  # Saving users on memory, for testing without DB
-    return response
+        if user["email"] not in [u["email"] for u in users_list]:
+            response = {"user": {
+                "username": request.json["user"]["username"],
+                "email": request.json["user"]["email"],
+                "token": "abuble"
+            }}
+            users_list.append(user)  # Saving users on memory
+            return response
+        return "Email already registered.", 401
 
 
 @app.route("/users/login", methods=["POST"])
 def login():
     if request.method == "POST":
+        response = {}
         user = request.json["user"]
-        response = {"user": {
-            "username": user["username"],
-            "email": user["email"],
-            "token": "abuble"
-        }}
-    return response
+        for u in users_list:
+            if user["email"] == u["email"] and user["password"] == u["password"]:
+                response = {"user": {
+                    "username": u["username"],
+                    "email": u["email"],
+                    "token": "abuble"
+                }}
+        if response:
+            return response
+        return "Invalid email or password.", 401
 
 
 if __name__ == '__main__':
