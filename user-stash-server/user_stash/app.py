@@ -7,12 +7,18 @@ CORS(app)
 users_list = []
 
 
-@app.route("/")
+@app.route("/api")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>User Stash :)</p>"
 
 
-@app.route("/users", methods=["GET", "POST"])
+@app.route("/api/user", methods=["GET"])
+def user():
+    if request.method == "GET":
+        return request.headers.get('Authorization'), 200
+
+
+@app.route("/api/users", methods=["GET", "POST"])
 def users():
     if request.method == "GET":
         return users_list
@@ -23,14 +29,14 @@ def users():
             response = {"user": {
                 "username": request.json["user"]["username"],
                 "email": request.json["user"]["email"],
-                "token": "abuble"
+                "token": request.json["user"]["email"]
             }}
             users_list.append(user)  # Saving users on memory
             return response
         return "Email already registered.", 401
 
 
-@app.route("/users/login", methods=["POST"])
+@app.route("/api/users/login", methods=["POST"])
 def login():
     if request.method == "POST":
         response = {}
