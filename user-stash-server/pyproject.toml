@@ -22,7 +22,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-"flask"
+"flask==3.0.3",
+"flask_cors==5.0.0"
 ]
 
 [project.urls]
