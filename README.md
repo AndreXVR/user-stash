@@ -1,6 +1,6 @@
-# User Stash
-User Stash is a practice project aimed at helping me improve my Full Stack Web Development skills.
+# User Stash - Instructions
+1. Use "docker-compose up" to start application
 
-## Project References
-- [Angular Authentication and Authorization - The Correct Way](https://www.youtube.com/watch?v=R8a8ituFkls):
-This video was very helpful with remembering key concepts about authentication and sessions.
+2. Use "docker exec -it user-stash_backend_1 flask --app user_stash/app.py db upgrade" to run the migrations (having issues running automatically in docker)
+
+3. Access "http://localhost:4200/"
