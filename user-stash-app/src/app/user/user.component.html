@@ -1,0 +1,9 @@
+<h1>User info</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+        First Name: <input type="text" placeholder="First Name" formControlName="first_name"/><br>
+        Last Name: <input type="text" placeholder="Last Name" formControlName="last_name" /><br>
+        Email: <input type="text" placeholder="Email" formControlName="email" /><br>
+        Old password: <input type="text" placeholder="Old password" formControlName="old_password" /><br>
+        New password: <input type="text" placeholder="New password" formControlName="new_password" /><br>
+        <button type="submit">Update</button>
+</form>

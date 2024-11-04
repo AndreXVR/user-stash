@@ -23,9 +23,17 @@ classifiers = [
 ]
 dependencies = [
 "flask==3.0.3",
-"flask_cors==5.0.0"
+"flask_cors==5.0.0",
+"flask_sqlalchemy==3.1.1",
+"flask_migrate",
+"psycopg2-binary",
+"pyjwt",
+"python-dotenv"
 ]
 
 [project.urls]
 Repository = "https://github.com/AndreXVR/user-stash"
 Issues = "https://github.com/AndreXVR/user-stash/issues"
+
+[project.scripts]
+user_stash_server = "user_stash.app:run"

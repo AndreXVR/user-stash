@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=stashdb
+    volumes:
+      - stashdb_data:/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - web_server
+
+  backend:
+    build: ./user-stash-server
+    environment:
+      - FLASK_SECRET_KEY=gyCAntGzMNCl0W0tB7s8PKsDvqamvgY7
+      - FLASK_DEBUG=True
+      - FLASK_DATABASE_URI=postgresql://docker:docker@database:5432/stashdb
+    depends_on:
+      - database
+    ports:
+      - "5000:5000"
+    networks:
+      - web_server
+
+  frontend:
+    build: ./user-stash-app
+    depends_on:
+      - backend
+    ports:
+      - "4200:4200"
+    networks:
+      - web_server
+
+volumes:
+  stashdb_data:
+networks:
+  web_server:
+    driver: bridge

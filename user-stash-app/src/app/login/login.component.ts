@@ -25,12 +25,11 @@ export class LoginComponent {
 
     onSubmit(): void {
         this.http.post<{user: UserInterface}>(
-            environment.apiUrl + "/api/users/login", {
+            environment.apiUrl + "/api/login", {
                 user: this.form.getRawValue()
             }
         ).subscribe({
             next: (response) => {
-            console.log("response", response);
             localStorage.setItem("token", response.user.token);
             this.authService.currentUserSig.set(response.user);
             this.router.navigateByUrl("/");

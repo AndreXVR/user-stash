@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<{user: UserInterface}>(environment.apiUrl + "/api/user").subscribe({
       next: (response) => {
-        console.log("response", response);
         this.authService.currentUserSig.set(response.user);
       },
       error: () => {
@@ -29,7 +28,6 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    console.log("logout")
     localStorage.setItem("token", "")
     this.authService.currentUserSig.set(null);
   }
